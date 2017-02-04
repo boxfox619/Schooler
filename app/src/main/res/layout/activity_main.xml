@@ -7,6 +7,25 @@
 
     <include layout="@layout/searchbar" />
 
+    <com.schooler.schoolerapplication.DetectScrollingScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_scrollview">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="1500dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textView" />
+        </RelativeLayout>
+    </com.schooler.schoolerapplication.DetectScrollingScrollView>
+
     <RelativeLayout
         android:id="@+id/footer"
         android:layout_width="fill_parent"
@@ -16,17 +35,26 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/ic_plus" />
 
-            <include layout="@layout/tablayout" />
+            <LinearLayout
+                android:id="@+id/bottom_nav"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="vertical">
+                <include layout="@layout/tablayout" />
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
