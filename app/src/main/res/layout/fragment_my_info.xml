@@ -221,6 +221,7 @@
                 android:layout_toLeftOf="@+id/iv_school"
                 android:layout_toStartOf="@+id/iv_school"
                 android:text="한국디지털미디어고등학교"
+                android:maxLength="12"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </RelativeLayout>

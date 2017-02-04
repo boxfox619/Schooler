@@ -16,6 +16,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,9 +49,20 @@ public class MainActivity extends NfcActivityWarrper {
         setContentView(R.layout.activity_main);
         this.mainFragment = MainFragment.newInstance();
         this.myPageFragment = MyInfoFragment.newInstance();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize();
         settingScrollView();
         setContent(mainFragment);
+    }
+
+    public void refreshMainContent() {
+        FragmentTransaction mFragmentTransc = getFragmentManager().beginTransaction();
+        this.mainFragment = MainFragment.newInstance();
+        if(prevFragment!=null&&prevFragment.equals(mainFragment)){
+            mFragmentTransc.remove(prevFragment);
+            mFragmentTransc.add(mainContent.getId(), mainFragment);
+            this.prevFragment = mainFragment;
+        }
     }
 
     private void setContent(Fragment fragment) {
@@ -146,11 +158,11 @@ public class MainActivity extends NfcActivityWarrper {
         hideSearchBar();
     }
 
-    private void hideSearchBar(){
+    private void hideSearchBar() {
         searchBar.animate().translationY(-(searchBar.getHeight() + getResources().getDimension(R.dimen.search_bar_top_margin)));
     }
 
-    private void showSearchBar(){
+    private void showSearchBar() {
         if (prevFragment.equals(mainFragment))
             searchBar.animate().translationY(0);
     }

@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/iv_more_icon"
             android:layout_toRightOf="@+id/iv_search_icon"
+            android:cursorVisible="false"
             android:background="@android:color/transparent"
             android:hint="@string/action_search"
             android:imeOptions="actionSearch"

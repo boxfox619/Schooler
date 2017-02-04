@@ -12,13 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.schooler.schoolerapplication.EditInfoActivity;
 import com.schooler.schoolerapplication.R;
 import com.schooler.schoolerapplication.datamodel.MyInfo;
+import com.schooler.schoolerapplication.datamodel.OtherInfo;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MyInfoFragment extends Fragment {
-    private TextView tv_birthday, tv_school, tv_phone, tv_subject;
-    private ImageView iv_profileImage, iv_birthday, iv_school, iv_phone, iv_subject, iv_sns;
+    private TextView tv_birthday, tv_school, tv_phone, tv_subject, tv_name;
+    private ImageView iv_profileImage, iv_birthday, iv_school, iv_phone, iv_subject, iv_sns, iv_card;
 
     public MyInfoFragment() {
     }
@@ -40,14 +45,24 @@ public class MyInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_my_info, container, false);
+        iv_card = (ImageView) fragment.findViewById(R.id.iv_card);
+        tv_name = (TextView) fragment.findViewById(R.id.tv_name);
         tv_birthday = (TextView) fragment.findViewById(R.id.tv_birthday);
         iv_birthday = (ImageView) fragment.findViewById(R.id.iv_birthday);
         iv_birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder(getActivity().getApplicationContext())
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+                MyInfo myInfo = realm.where(MyInfo.class).findFirst();
                 Intent intent = new Intent(getActivity(), EditInfoActivity.class);
                 intent.putExtra("Type", MyInfo.BIRTHDAY);
-                intent.putExtra("Info", tv_birthday.getText());
+                intent.putExtra("Info", myInfo.getBirthday());
                 startActivity(intent);
             }
         });
@@ -56,9 +71,17 @@ public class MyInfoFragment extends Fragment {
         iv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder(getActivity().getApplicationContext())
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+                MyInfo myInfo = realm.where(MyInfo.class).findFirst();
                 Intent intent = new Intent(getActivity(), EditInfoActivity.class);
                 intent.putExtra("Type", MyInfo.PHONE);
-                intent.putExtra("Info", tv_phone.getText());
+                intent.putExtra("Info", myInfo.getPhone());
                 startActivity(intent);
             }
         });
@@ -68,9 +91,16 @@ public class MyInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder(getActivity().getApplicationContext())
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+                MyInfo myInfo = realm.where(MyInfo.class).findFirst();
                 Intent intent = new Intent(getActivity(), EditInfoActivity.class);
                 intent.putExtra("Type", MyInfo.SUBJECT);
-                intent.putExtra("Info", tv_subject.getText());
+                intent.putExtra("Info", myInfo.getSubject());
                 startActivity(intent);
             }
         });
@@ -79,19 +109,52 @@ public class MyInfoFragment extends Fragment {
         iv_school.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder(getActivity().getApplicationContext())
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+                MyInfo myInfo = realm.where(MyInfo.class).findFirst();
                 Intent intent = new Intent(getActivity(), EditInfoActivity.class);
                 intent.putExtra("Type", MyInfo.SCHOOL);
-                intent.putExtra("Info", tv_school.getText());
+                intent.putExtra("Info", myInfo.getSchool());
                 startActivity(intent);
             }
         });
-
         iv_profileImage = (ImageView) fragment.findViewById(R.id.iv_profile_image);
         iv_sns = (ImageView) fragment.findViewById(R.id.iv_sns);
-
+        setInfo();
         return fragment;
     }
 
+    private void setInfo() {
+        RealmConfiguration realmConfig = new RealmConfiguration
+                .Builder(getActivity().getApplicationContext())
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        MyInfo myInfo = realm.where(MyInfo.class).findFirst();
+        tv_name.setText(myInfo.getName());
+        tv_birthday.setText(myInfo.getBirthday());
+        tv_phone.setText(myInfo.getPhone());
+        tv_subject.setText(myInfo.getSubject());
+        tv_school.setText(myInfo.getSchool());
+        if (myInfo.getProfileImage() != null) {
+            AQuery aq = new AQuery(getActivity().getApplicationContext());
+            aq.id(iv_card).image(myInfo.getProfileImage());
+        }
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setInfo();
+    }
 
     @Override
     public void onAttach(Context context) {

@@ -11,4 +11,6 @@
     <dimen name="hr_height">0.2dp</dimen>
 
     <dimen name="margin_mypage">8dp</dimen>
+    
+    <dimen name="up_login_button">110dp</dimen>
 </resources>

@@ -3,20 +3,16 @@ package com.schooler.schoolerapplication.datamodel;
 import io.realm.RealmObject;
 
 /**
- * Created by boxfox on 2017-02-04.
+ * Created by boxfox on 2017-02-05.
  */
-public class MyInfo extends RealmObject {
-    public static final String BIRTHDAY = "생년월일";
-    public static final String SCHOOL = "재학중인 학교";
-    public static final String PHONE = "전화번호";
-    public static final String SUBJECT = "학과 및 학급";
-
+public class OtherInfo extends RealmObject {
     private String name;
     private String profileImage;
     private String birthday;
     private String school;
     private String phone;
     private String subject;
+    private String nfc;
 
     private String sessionKey;
 
@@ -51,7 +47,7 @@ public class MyInfo extends RealmObject {
 
     public String getSchool() {
         if(school==null)
-        setSchool("");
+            setSchool("");
         return school;
     }
 
@@ -83,5 +79,13 @@ public class MyInfo extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNfc() {
+        return nfc;
+    }
+
+    public void setNfc(String nfc) {
+        this.nfc = nfc;
     }
 }

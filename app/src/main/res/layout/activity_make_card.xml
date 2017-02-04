@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dudco.d3s_hackathon.MainActivity">
+
+
+    <com.xiaopo.flying.sticker.StickerView
+        android:id="@+id/stickerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.xiaopo.flying.sticker.StickerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_action_hammenu"
+        android:backgroundTint="#33000000"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_okay"
+        android:backgroundTint="#33000000"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/b_menu"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_menu"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:weightSum="24">
+        <android.support.v4.widget.Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <android.support.v4.widget.Space
+            android:layout_weight="0.3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:src="@drawable/ic_photo"/>
+
+        <ImageView
+            android:id="@+id/text"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:src="@drawable/ic_textbox_white_48dp" />
+        <LinearLayout
+            android:layout_weight="0.05"
+            android:layout_width="0dp"
+            android:padding="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#ffffff"/>
+        <ImageView
+            android:id="@+id/bold"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_bold"/>
+
+        <ImageView
+            android:id="@+id/italic"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:src="@drawable/ic_italic"/>
+
+
+        <ImageView
+            android:id="@+id/underline"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:src="@drawable/ic_format_underline_white_48dp"/>
+
+        <ImageView
+            android:id="@+id/font"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:src="@drawable/ic_format_font_white_48dp"/>
+
+        <LinearLayout
+            android:layout_weight="0.05"
+            android:layout_width="0dp"
+            android:padding="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#ffffff"/>
+        <android.support.v4.widget.Space
+            android:layout_weight="0.6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:id="@+id/color_container"
+            android:layout_weight="2.4"
+            android:layout_width="0dp"
+            android:padding="3dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/color_back"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/oval_color"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:id="@+id/color"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/oval_color"
+                android:backgroundTint="@color/colorAccent"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
