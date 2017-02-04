@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SchoolerApplication</string>
+    <string name="facebook_app_id">1665411163756369</string>
+    <string name="action_search">학교 및 출신 검색</string>
+</resources>
