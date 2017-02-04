@@ -7,6 +7,9 @@
 
     <color name="icon">#666666</color>
 
-    <color name="background">#fafafa</color>
+    <color name="background">#f5f5f5</color>
     <color name="fab_button">#ff5722</color>
+
+    <color name="card_line">#50000000</color>
+    <color name="div_line">#88000000</color>
 </resources>

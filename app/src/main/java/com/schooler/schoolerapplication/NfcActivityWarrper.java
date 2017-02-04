@@ -1,11 +1,14 @@
 package com.schooler.schoolerapplication;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 public abstract class NfcActivityWarrper extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
@@ -59,5 +62,29 @@ public abstract class NfcActivityWarrper extends AppCompatActivity {
                     .append(CHARS.charAt(data[i] & 0x0F));
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            new AlertDialog.Builder(this).setTitle("종료확인")
+                    // .setIcon(R.drawable.warning)
+                    .setMessage("종료하시겠습니까?")
+                    .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            moveTaskToBack(true);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

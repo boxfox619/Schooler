@@ -1,6 +1,9 @@
 package com.schooler.schoolerapplication;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -15,13 +18,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import layout.MainFragment;
+import layout.MyInfoFragment;
+
 public class MainActivity extends NfcActivityWarrper {
+    private static final String TAB_HOME = "홈";
+    private static final String TAB_MYPAGE = "나의명함";
+    private static final String TAB_CHATTING = "채팅";
+    private RelativeLayout mainContent;
+
+    private MainFragment mainFragment;
+    private MyInfoFragment myPageFragment;
+
+    private Fragment prevFragment;
+
+    private View searchBar;
     private DetectScrollingScrollView mainScrollView;
     private FloatingActionButton fab;
-    private View searchBar;
     private TabLayout tabLayout;
     private View prevTab, bottomNavigation;
 
@@ -29,11 +46,41 @@ public class MainActivity extends NfcActivityWarrper {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.mainFragment = MainFragment.newInstance();
+        this.myPageFragment = MyInfoFragment.newInstance();
         initialize();
         settingScrollView();
+        setContent(mainFragment);
+    }
+
+    private void setContent(Fragment fragment) {
+        if (prevFragment != null && prevFragment.equals(fragment)) return;
+        FragmentTransaction mFragmentTransc = getFragmentManager().beginTransaction();
+        if (prevFragment != null)
+            mFragmentTransc.remove(prevFragment);
+        mFragmentTransc.add(mainContent.getId(), fragment);
+        mFragmentTransc.addToBackStack(null);
+        mFragmentTransc.commit();
+        prevFragment = fragment;
+    }
+
+    private void processTab(View view) {
+        String title = ((TextView) view.findViewById(R.id.tv_title)).getText().toString();
+        switch (title) {
+            case TAB_HOME:
+                setContent(mainFragment);
+                showSearchBar();
+                break;
+            case TAB_MYPAGE:
+                setContent(myPageFragment);
+                hideSearchBar();
+                break;
+        }
     }
 
     private void initialize() {
+        searchBar = findViewById(R.id.search_bar);
+        mainContent = (RelativeLayout) findViewById(R.id.main_content);
         bottomNavigation = findViewById(R.id.bottom_nav);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setSelectedTabIndicatorHeight(0);
@@ -49,6 +96,7 @@ public class MainActivity extends NfcActivityWarrper {
                     ((TextView) prevTab.findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.icon));
                 }
                 prevTab = view;
+                processTab(view);
             }
 
             @Override
@@ -59,9 +107,9 @@ public class MainActivity extends NfcActivityWarrper {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab("Tab 1", R.drawable.ic_more_vert_black_24dp)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab("Tab 2", R.drawable.ic_more_vert_black_24dp)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab("Tab 3", R.drawable.ic_more_vert_black_24dp)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_HOME, R.drawable.ic_home_black_24dp)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_MYPAGE, R.drawable.ic_account_card_details_black_24dp)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_CHATTING, R.drawable.ic_message_black_24dp)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(createTab("Tab 4", R.drawable.ic_more_vert_black_24dp)));
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +120,6 @@ public class MainActivity extends NfcActivityWarrper {
     }
 
     private void settingScrollView() {
-        searchBar = findViewById(R.id.search_bar);
         mainScrollView = (DetectScrollingScrollView) findViewById(R.id.main_scrollview);
         mainScrollView.setHandler(new Handler() {
 
@@ -83,7 +130,7 @@ public class MainActivity extends NfcActivityWarrper {
                         show();
                         break;
                     case DetectScrollingScrollView.DOWN:
-                        if (msg.arg1 >= searchBar.getHeight()) {
+                        if (msg.arg1 > searchBar.getHeight()) {
                             hide();
                         }
                         break;
@@ -92,18 +139,27 @@ public class MainActivity extends NfcActivityWarrper {
         });
     }
 
-    private void hide(){
+    private void hide() {
         mainScrollView.setHide(true);
-        searchBar.animate().translationY(-(searchBar.getHeight()+getResources().getDimension(R.dimen.search_bar_top_margin)));
         bottomNavigation.animate().translationY(tabLayout.getHeight());
         fab.animate().translationY(tabLayout.getHeight());
+        hideSearchBar();
     }
 
-    private void show(){
+    private void hideSearchBar(){
+        searchBar.animate().translationY(-(searchBar.getHeight() + getResources().getDimension(R.dimen.search_bar_top_margin)));
+    }
+
+    private void showSearchBar(){
+        if (prevFragment.equals(mainFragment))
+            searchBar.animate().translationY(0);
+    }
+
+    private void show() {
         mainScrollView.setHide(false);
-        searchBar.animate().translationY(0);
         bottomNavigation.animate().translationY(0);
         fab.animate().translationY(0);
+        showSearchBar();
     }
 
     private View createTab(String title, int iconId) {

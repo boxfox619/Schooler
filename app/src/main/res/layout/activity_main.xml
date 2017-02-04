@@ -3,26 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.schooler.application.MainActivity">
 
     <include layout="@layout/searchbar" />
 
     <com.schooler.schoolerapplication.DetectScrollingScrollView
+        android:id="@+id/main_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/main_scrollview">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:padding="@dimen/activity_vertical_margin">
+        android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="1500dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView" />
+        <RelativeLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="?attr/actionBarSize">
+
         </RelativeLayout>
     </com.schooler.schoolerapplication.DetectScrollingScrollView>
 
@@ -36,8 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:orientation="vertical">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
@@ -52,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:orientation="vertical">
+
                 <include layout="@layout/tablayout" />
             </LinearLayout>
 

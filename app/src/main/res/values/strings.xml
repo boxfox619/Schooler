@@ -2,4 +2,14 @@
     <string name="app_name">SchoolerApplication</string>
     <string name="facebook_app_id">1665411163756369</string>
     <string name="action_search">학교 및 출신 검색</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="category1">최근 추가된 명함</string>
+    <string name="category2">한국디지털미디어고등학교 소속</string>
+    <string name="category3">선린인터넷고등학교 소속</string>
+    <string name="category4">대덕소프트웨어마이스터고등학교 소속</string>
+    <string name="category5">대구소프트웨어마이스터고등학교 소속</string>
+
 </resources>
