@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.dudco.d3s_hackathon.MainActivity">
+    android:layout_height="match_parent">
 
 
     <com.xiaopo.flying.sticker.StickerView

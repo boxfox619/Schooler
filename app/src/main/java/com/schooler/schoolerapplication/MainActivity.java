@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import layout.ChatingFragment;
 import layout.MainFragment;
 import layout.MyInfoFragment;
 
@@ -30,10 +31,11 @@ public class MainActivity extends NfcActivityWarrper {
     private static final String TAB_HOME = "홈";
     private static final String TAB_MYPAGE = "나의명함";
     private static final String TAB_CHATTING = "채팅";
-    private RelativeLayout mainContent;
+    private RelativeLayout mainContent, chatContent;
 
     private MainFragment mainFragment;
     private MyInfoFragment myPageFragment;
+    private ChatingFragment chatingFragment;
 
     private Fragment prevFragment;
 
@@ -43,12 +45,23 @@ public class MainActivity extends NfcActivityWarrper {
     private TabLayout tabLayout;
     private View prevTab, bottomNavigation;
 
+    public static TabLayout.Tab chat;
+    public static MainActivity instance;
+    public static MainActivity getInstace(){
+        return instance;
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
         this.mainFragment = MainFragment.newInstance();
         this.myPageFragment = MyInfoFragment.newInstance();
+        this.chatingFragment = ChatingFragment.newInstance();
+
+        this.chatContent = (RelativeLayout) findViewById(R.id.chat_content);
+        this.fab = (FloatingActionButton) findViewById(R.id.fab);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize();
         settingScrollView();
@@ -70,11 +83,20 @@ public class MainActivity extends NfcActivityWarrper {
         FragmentTransaction mFragmentTransc = getFragmentManager().beginTransaction();
         if (prevFragment != null)
             mFragmentTransc.remove(prevFragment);
-        mFragmentTransc.add(mainContent.getId(), fragment);
+        if(fragment.equals(chatingFragment)){
+            mFragmentTransc.add(chatContent.getId(), fragment);
+            chatContent.bringToFront();
+            fab.hide();
+        }else {
+            mFragmentTransc.add(mainContent.getId(), fragment);
+            mainContent.bringToFront();
+            fab.show();
+        }
         mFragmentTransc.addToBackStack(null);
         mFragmentTransc.commit();
         prevFragment = fragment;
     }
+
 
     private void processTab(View view) {
         String title = ((TextView) view.findViewById(R.id.tv_title)).getText().toString();
@@ -85,6 +107,10 @@ public class MainActivity extends NfcActivityWarrper {
                 break;
             case TAB_MYPAGE:
                 setContent(myPageFragment);
+                hideSearchBar();
+                break;
+            case TAB_CHATTING:
+                setContent(chatingFragment);
                 hideSearchBar();
                 break;
         }
@@ -121,8 +147,8 @@ public class MainActivity extends NfcActivityWarrper {
         });
         tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_HOME, R.drawable.ic_home_black_24dp)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_MYPAGE, R.drawable.ic_account_card_details_black_24dp)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab(TAB_CHATTING, R.drawable.ic_message_black_24dp)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTab("Tab 4", R.drawable.ic_more_vert_black_24dp)));
+        chat = tabLayout.newTab().setCustomView(createTab(TAB_CHATTING, R.drawable.ic_message_black_24dp));
+        tabLayout.addTab(chat);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

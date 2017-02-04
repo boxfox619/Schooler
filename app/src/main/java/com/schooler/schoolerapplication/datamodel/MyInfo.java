@@ -17,6 +17,7 @@ public class MyInfo extends RealmObject {
     private String school;
     private String phone;
     private String subject;
+    private String nfc;
 
     private String sessionKey;
 
@@ -83,5 +84,13 @@ public class MyInfo extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNfc() {
+        return nfc;
+    }
+
+    public void setNfc(String nfc) {
+        this.nfc = nfc;
     }
 }

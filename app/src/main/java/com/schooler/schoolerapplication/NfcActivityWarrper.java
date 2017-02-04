@@ -152,7 +152,10 @@ public abstract class NfcActivityWarrper extends AppCompatActivity {
                             .build();
                     Realm.setDefaultConfiguration(realmConfig);
                     Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
                     MyInfo user = realm.where(MyInfo.class).findFirst();
+                    user.setNfc(nfcKey);
+                    realm.commitTransaction();
                     AQuery aq = new AQuery(NfcActivityWarrper.this);
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("token", user.getSessionKey());

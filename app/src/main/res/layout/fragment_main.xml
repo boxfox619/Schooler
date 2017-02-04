@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/category_bottom"
-                android:text="@string/category1"
+                android:text="채팅"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -45,7 +45,8 @@
                         android:id="@+id/iv_card"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/images" />
+                        android:src="@drawable/asdf"
+                        android:scaleType="centerCrop"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Large Text"
+                            android:text="단체 채팅방"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@color/white" />
 

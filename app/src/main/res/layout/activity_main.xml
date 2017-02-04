@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context="com.schooler.application.MainActivity">
+    android:background="@color/background">
 
     <include layout="@layout/searchbar" />
+    <RelativeLayout
+        android:id="@+id/chat_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize">
 
+    </RelativeLayout>
     <com.schooler.schoolerapplication.DetectScrollingScrollView
         android:id="@+id/main_scrollview"
         android:layout_width="match_parent"

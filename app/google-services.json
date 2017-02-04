@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "326855375742",
+    "firebase_url": "https://admob-app-id-9688827318.firebaseio.com",
+    "project_id": "admob-app-id-9688827318",
+    "storage_bucket": "admob-app-id-9688827318.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326855375742:android:8f2f0b9f2c27d440",
+        "android_client_info": {
+          "package_name": "boxfox.shakenote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326855375742-g8umdso797ggcvqc92juer8798cl4l11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrKSvEbpfITy8RZAAV6adUzyCgq7eQAQE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326855375742:android:fb0128499e69f64a",
+        "android_client_info": {
+          "package_name": "com.schooler.schoolerapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326855375742-g8umdso797ggcvqc92juer8798cl4l11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrKSvEbpfITy8RZAAV6adUzyCgq7eQAQE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

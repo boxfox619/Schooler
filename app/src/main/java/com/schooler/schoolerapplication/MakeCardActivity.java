@@ -1,13 +1,17 @@
 package com.schooler.schoolerapplication;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
@@ -33,14 +37,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.OnColorSelected;
+import com.schooler.schoolerapplication.datamodel.MyInfo;
 import com.xiaopo.flying.sticker.DrawableSticker;
 import com.xiaopo.flying.sticker.Sticker;
 import com.xiaopo.flying.sticker.StickerView;
 import com.xiaopo.flying.sticker.TextSticker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,7 +60,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MakeCardActivity  extends AppCompatActivity {
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+public class MakeCardActivity  extends Activity {
     private StickerView stickerView;
     private ImageView color_back;
     private FloatingActionButton fab_menu, fab_back;
@@ -65,28 +79,51 @@ public class MakeCardActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_make_card);
 
         fab_back = (FloatingActionButton) findViewById(R.id.back);
         fab_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                reqPermission();
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder(getApplicationContext().getApplicationContext())
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+
                 File file = getNewFile(MakeCardActivity.this, "Sticker");
                 stickerView.save(file);
-                AQuery aq = new AQuery(this);
-                File file = getNewFile(MakeCardActivity.this, "Sticker");
+                AQuery aq = new AQuery(MakeCardActivity.this);
                 stickerView.save(file);
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("image", file);
-                map.put("id", id);
+                map.put("token", realm.where(MyInfo.class).findFirst().getSessionKey());
 
-                aq.ajax("http://iwin247.net:3000/up", map, String.class, new AjaxCallback<String>() {
+                aq.ajax("http://iwin247.net:3000/image/up", map, String.class, new AjaxCallback<String>() {
                     @Override
                     public void callback(String url, String object, AjaxStatus status) {
 //                        super.callback(url, object, status);
+                        RealmConfiguration realmConfig = new RealmConfiguration
+                                .Builder(MakeCardActivity.this.getApplicationContext())
+                                .deleteRealmIfMigrationNeeded()
+                                .build();
+                        Realm.setDefaultConfiguration(realmConfig);
+                        Realm realm = Realm.getDefaultInstance();
+                        MyInfo myInfo = realm.where(MyInfo.class).findFirst();
                         Log.d("dudco", url);
                         Log.d("dudco", status.getCode() + "    " + status.getMessage());
                         Log.d("dudco", object.toString());
+                        try {
+                            JSONObject json = new JSONObject(object);
+                            json.getString("namecard");
+                            realm.beginTransaction();
+                            myInfo.setProfileImage("http://www.iwin247.net:3000/image/down?image="+json.getString("namecard"));
+                            realm.commitTransaction();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         finish();
                     }
                 });
@@ -364,6 +401,16 @@ public class MakeCardActivity  extends AppCompatActivity {
         }
 
         return new File(path);
+    }
+    public void reqPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission_group.STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET,Manifest.permission_group.STORAGE}, 100);
+            }
+        }
     }
 
     private static boolean isSDAvailable() {

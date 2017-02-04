@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.schooler.schoolerapplication.EditInfoActivity;
+import com.schooler.schoolerapplication.MakeCardActivity;
 import com.schooler.schoolerapplication.R;
 import com.schooler.schoolerapplication.datamodel.MyInfo;
 import com.schooler.schoolerapplication.datamodel.OtherInfo;
@@ -46,6 +48,12 @@ public class MyInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_my_info, container, false);
         iv_card = (ImageView) fragment.findViewById(R.id.iv_card);
+        iv_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MakeCardActivity.class));
+            }
+        });
         tv_name = (TextView) fragment.findViewById(R.id.tv_name);
         tv_birthday = (TextView) fragment.findViewById(R.id.tv_birthday);
         iv_birthday = (ImageView) fragment.findViewById(R.id.iv_birthday);
@@ -145,6 +153,7 @@ public class MyInfoFragment extends Fragment {
         tv_school.setText(myInfo.getSchool());
         if (myInfo.getProfileImage() != null) {
             AQuery aq = new AQuery(getActivity().getApplicationContext());
+            Log.d("dudco", myInfo.getProfileImage());
             aq.id(iv_card).image(myInfo.getProfileImage());
         }
         realm.commitTransaction();

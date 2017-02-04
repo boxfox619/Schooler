@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="우아한 형제-도현" />
+
+    <item
+        android:title="우아한 형제-연성" />
+
+    <item
+        android:title="우아한 형제-주아" />
+
+    <item
+        android:title="우안한 형제-한나는 11살" />
+
+    <item
+        android:title="노토 산스" />
+
+</menu>
