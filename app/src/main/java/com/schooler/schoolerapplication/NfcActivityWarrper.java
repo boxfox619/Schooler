@@ -132,6 +132,11 @@ public abstract class NfcActivityWarrper extends AppCompatActivity {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+                                        try{
+                                            user.setSessionKey(obj.getString("token"));
+                                        } catch (JSONException e){
+                                            e.printStackTrace();
+                                        }
                                         realm.commitTransaction();
                                         refreshMainContent();
                                     }

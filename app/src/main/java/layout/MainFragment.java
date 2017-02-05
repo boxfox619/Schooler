@@ -14,12 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.schooler.schoolerapplication.ChatingActivity;
 import com.schooler.schoolerapplication.MainActivity;
 import com.schooler.schoolerapplication.R;
 import com.schooler.schoolerapplication.datamodel.MyInfo;
 import com.schooler.schoolerapplication.datamodel.OtherInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
@@ -82,10 +88,10 @@ public class MainFragment extends Fragment {
 //            aq.id(((ImageView) fragment.findViewById(R.id.iv_card))).image(other.getProfileImage());
 //
 //        }
+        addCategory("디지털");
+        addCategory("선린");
         addCategory("대덕");
         addCategory("대구");
-        addCategory("선린");
-        addCategory("디지털");
         return fragment;
     }
 
@@ -105,7 +111,7 @@ public class MainFragment extends Fragment {
             final MyInfo user = realm.where(MyInfo.class).findFirst();
 
             for (final OtherInfo other : list) {
-                View card = getActivity().getLayoutInflater().inflate(R.layout.business_card, null);
+                final View card = getActivity().getLayoutInflater().inflate(R.layout.business_card, null);
                 card.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -118,8 +124,30 @@ public class MainFragment extends Fragment {
                 });
                 ((TextView) card.findViewById(R.id.tv_name)).setText(other.getName());
                 if(other.getProfileImage()!=null) {
-                    AQuery aq = new AQuery(getActivity().getApplicationContext());
-                    aq.id(((ImageView) card.findViewById(R.id.iv_card))).image(other.getProfileImage());
+                    final AQuery aq = new AQuery(getActivity().getApplicationContext());
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("token", other.getSessionKey());
+                    map.put("nfc", other.getNfc());
+                    aq.ajax("http://iwin247.net:3000/edit/nfc", map, String.class, new AjaxCallback<String>() {
+                        @Override
+                        public void callback(String url, String object, AjaxStatus status) {
+                            Log.d("dudco", url);
+                            Log.d("dudco", status.getCode() + "    " + status.getMessage());
+                            Log.d("dudco", object.toString());
+                            try {
+                                JSONObject json = new JSONObject(object);
+                                String profile = "http://www.iwin247.net:3000/image/down?image="+json.getString("namecard");
+                                if(!profile.equals(other.getProfileImage())){
+                                    realm.beginTransaction();
+                                    other.setProfileImage(profile);
+                                    realm.commitTransaction();
+
+                                }
+                            } catch (JSONException e) {
+                            }
+                            aq.id(((ImageView) card.findViewById(R.id.iv_card))).image(other.getProfileImage());
+                        }
+                    });
                 }
                 slot.addView(card);
             }
@@ -129,10 +157,13 @@ public class MainFragment extends Fragment {
     }
     public String compare(String a, String b){
         int re = (int)a.toString().charAt(1) + (int)b.toString().charAt(1);
-
-
-
         return String.valueOf(re);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override

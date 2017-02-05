@@ -13,7 +13,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -61,6 +63,16 @@ public class MainActivity extends NfcActivityWarrper {
 
         this.chatContent = (RelativeLayout) findViewById(R.id.chat_content);
         this.fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("친구추가")
+                        .setMessage("상대방의 명함을 태그해주세요")
+                        .setPositiveButton("확인", null)
+                        .show();
+            }
+        });
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize();
@@ -70,11 +82,16 @@ public class MainActivity extends NfcActivityWarrper {
 
     public void refreshMainContent() {
         FragmentTransaction mFragmentTransc = getFragmentManager().beginTransaction();
-        this.mainFragment = MainFragment.newInstance();
         if(prevFragment!=null&&prevFragment.equals(mainFragment)){
+            this.mainFragment = MainFragment.newInstance();
+            Log.d("dudco", "asdf");
             mFragmentTransc.remove(prevFragment);
             mFragmentTransc.add(mainContent.getId(), mainFragment);
             this.prevFragment = mainFragment;
+            mFragmentTransc.addToBackStack(null);
+            mFragmentTransc.commit();
+        }else{
+            this.mainFragment = MainFragment.newInstance();
         }
     }
 
