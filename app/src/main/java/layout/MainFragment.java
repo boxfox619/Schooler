@@ -54,7 +54,7 @@ public class MainFragment extends Fragment {
         fragment.findViewById(R.id.textView2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "연동 중 입니다 ...", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "연동 중 입니다 ...", Toast.LENGTH_LONG).show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -66,12 +66,12 @@ public class MainFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity(), "연동 되었습니다!", Toast.LENGTH_SHORT);
+                                Toast.makeText(getActivity(), "연동 되었습니다!", Toast.LENGTH_SHORT).show();
                                 MainActivity.getInstace().chat.select();
                             }
                         });
                     }
-                });
+                }).start();
             }
         });
 

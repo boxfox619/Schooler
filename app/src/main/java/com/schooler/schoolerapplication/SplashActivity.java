@@ -125,41 +125,43 @@ public class SplashActivity extends AppCompatActivity {
         Realm.setDefaultConfiguration(realmConfig);
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        OtherInfo other = realm.createObject(OtherInfo.class);
-        OtherInfo other2 = realm.createObject(OtherInfo.class);
-        OtherInfo other3 = realm.createObject(OtherInfo.class);
-        OtherInfo other4 = realm.createObject(OtherInfo.class);
-        OtherInfo other5 = realm.createObject(OtherInfo.class);
-        OtherInfo other6 = realm.createObject(OtherInfo.class);
+        if(realm.where(OtherInfo.class).equalTo("name", "조여규").count() == 0) {
+            OtherInfo other = realm.createObject(OtherInfo.class);
+            OtherInfo other2 = realm.createObject(OtherInfo.class);
+            OtherInfo other3 = realm.createObject(OtherInfo.class);
+            OtherInfo other4 = realm.createObject(OtherInfo.class);
+            OtherInfo other5 = realm.createObject(OtherInfo.class);
+            OtherInfo other6 = realm.createObject(OtherInfo.class);
 
-        other.setName("조여규");
-        other.setSchool("선린인터넷 고등학교");
-        other.setPhone("123-1234-1234");
-        other.setProfileImage("http://cfile24.uf.tistory.com/image/2705984A58966659205BEE");
+            other.setName("조여규");
+            other.setSchool("선린인터넷 고등학교");
+            other.setPhone("123-1234-1234");
+            other.setProfileImage("http://cfile24.uf.tistory.com/image/2705984A58966659205BEE");
 
-        other2.setName("이서영");
-        other2.setSchool("선린인터넷 고등학교");
-        other2.setPhone("123-1234-1234");
-        other2.setProfileImage("http://cfile23.uf.tistory.com/image/255A8E4A589666572DD587");
+            other2.setName("이서영");
+            other2.setSchool("선린인터넷 고등학교");
+            other2.setPhone("123-1234-1234");
+            other2.setProfileImage("http://cfile23.uf.tistory.com/image/255A8E4A589666572DD587");
 
-        other3.setName("송혜민");
-        other3.setSchool("디지털 미디어 고등학교");
-        other3.setPhone("123-1234-1234");
-        other3.setProfileImage("http://cfile3.uf.tistory.com/image/2704824A589666562B0864");
-        other4.setName("이다정");
-        other4.setSchool("디지털 미디어 고등학교");
-        other4.setPhone("123-1234-1234");
-        other4.setProfileImage("http://cfile9.uf.tistory.com/image/221CE64A589666552942FE");
+            other3.setName("송혜민");
+            other3.setSchool("디지털 미디어 고등학교");
+            other3.setPhone("123-1234-1234");
+            other3.setProfileImage("http://cfile3.uf.tistory.com/image/2704824A589666562B0864");
+            other4.setName("이다정");
+            other4.setSchool("디지털 미디어 고등학교");
+            other4.setPhone("123-1234-1234");
+            other4.setProfileImage("http://cfile9.uf.tistory.com/image/221CE64A589666552942FE");
 
-        other5.setName("나예찬");
-        other5.setSchool("선린인터넷 고등학교");
-        other5.setPhone("123-1234-1234");
-        other5.setProfileImage("http://cfile9.uf.tistory.com/image/221CE64A589666552942FE");
+            other5.setName("나예찬");
+            other5.setSchool("선린인터넷 고등학교");
+            other5.setPhone("123-1234-1234");
+            other5.setProfileImage("http://cfile9.uf.tistory.com/image/221CE64A589666552942FE");
 
-        other6.setName("심상현");
-        other6.setSchool("대덕 소프트웨어 마이스터고");
-        other6.setPhone("123-1234-1234");
-        other6.setProfileImage("http://cfile5.uf.tistory.com/image/2140A84A589666532EDC47");
+            other6.setName("심상현");
+            other6.setSchool("대덕 소프트웨어 마이스터고");
+            other6.setPhone("123-1234-1234");
+            other6.setProfileImage("http://cfile5.uf.tistory.com/image/2140A84A589666532EDC47");
+        }
         realm.commitTransaction();
         MyInfo myInfo = realm.where(MyInfo.class).findFirst();
         if (myInfo == null) {
