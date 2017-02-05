@@ -218,7 +218,11 @@ public class SplashActivity extends AppCompatActivity {
                         MyInfo info = realm.createObject(MyInfo.class);
                         info.setName(obj.getString("name"));
                         info.setSessionKey(obj.getString("token"));
-                        info.setProfileImage("http://www.iwin247.net:3000/image/down?image="+obj.getString("namecard"));
+                        try {
+                            info.setProfileImage("http://www.iwin247.net:3000/image/down?image=" + obj.getString("namecard"));
+                        }catch (JSONException e){
+                            info.setProfileImage(obj.getString("picture"));
+                        }
                         realm.commitTransaction();
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
